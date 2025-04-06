@@ -2,8 +2,12 @@
 
 import { cn } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
+import "highlight.js/styles/github-dark.min.css";
 import { CornerDownLeft, RotateCcw, Square } from "lucide-react";
 import { useEffect, useRef } from "react";
+import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
+import remarkGfm from "remark-gfm";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -45,7 +49,17 @@ export default function Chat() {
             {message.parts.map((part, i) => {
               switch (part.type) {
                 case "text":
-                  return <div key={`${message.id}-${i}`}>{part.text}</div>;
+                  return (
+                    <div className="prose dark:prose-invert max-w-full">
+                      <ReactMarkdown
+                        key={`${message.id}-${i}`}
+                        remarkPlugins={[remarkGfm]}
+                        rehypePlugins={[rehypeHighlight]}
+                      >
+                        {part.text}
+                      </ReactMarkdown>
+                    </div>
+                  );
                 case "reasoning":
                   return (
                     <pre key={i}>
