@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useChat } from "@ai-sdk/react";
 import { CornerDownLeft, RotateCcw, Square } from "lucide-react";
+import { useEffect, useRef } from "react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 
@@ -17,6 +18,15 @@ export default function Chat() {
     handleInputChange,
     handleSubmit,
   } = useChat();
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, error]);
 
   const onClick = () => {
     if (status === "ready" || status === "error") {
@@ -28,7 +38,7 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col w-full flex-1 max-w-md">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 h-[calc(100vh-180px)] overflow-y-auto pb-4">
         {messages.map((message) => (
           <div key={message.id} className={cn("whitespace-pre-wrap")}>
             {message.role === "user" ? "User: " : "AI: "}
@@ -48,6 +58,7 @@ export default function Chat() {
             })}
           </div>
         ))}
+        <div ref={messagesEndRef} />
 
         {error && (
           <div className="flex justify-between">
