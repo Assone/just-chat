@@ -121,3 +121,21 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer components {
+  .prose {
+    a {
+      @apply text-blue-600 dark:text-blue-400 hover:underline;
+    }
+    code:not(pre code) {
+      @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded;
+    }
+    pre {
+      @apply bg-gray-900 dark:bg-gray-800 p-4 rounded-lg overflow-x-auto;
+    }
+
+    ul > li {
+      @apply my-0!;
+    }
+  }
+}

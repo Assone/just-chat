@@ -50,7 +50,7 @@ export default function Chat() {
               switch (part.type) {
                 case "text":
                   return (
-                    <div className="prose dark:prose-invert max-w-full">
+                    <div className="prose dark:prose-invert">
                       <ReactMarkdown
                         key={`${message.id}-${i}`}
                         remarkPlugins={[remarkGfm]}
